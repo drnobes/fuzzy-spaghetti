@@ -64,13 +64,17 @@ def parse_bib_file(bib_path: Path) -> dict | None:
         except json.JSONDecodeError:
             pass
 
-    # Find companion PDF
-    bib_stem = bib_path.stem
-    pdf_candidates = list(bib_path.parent.glob(f"{bib_stem}.pdf"))
-    if not pdf_candidates:
-        # Try matching by cite_key prefix in filenames
-        pdf_candidates = list(bib_path.parent.glob("*.pdf"))
-    pdf_path = pdf_candidates[0] if pdf_candidates else None
+    # Find companion PDF: check bib 'file' field first, then stem match
+    bib_file_field = field("file")
+    pdf_path = None
+    if bib_file_field:
+        candidate = bib_path.parent / bib_file_field
+        if candidate.exists():
+            pdf_path = candidate
+    if not pdf_path:
+        candidate = bib_path.with_suffix(".pdf")
+        if candidate.exists():
+            pdf_path = candidate
 
     return {
         "entry_type": entry_type,
