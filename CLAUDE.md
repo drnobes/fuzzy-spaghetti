@@ -75,3 +75,35 @@ Configure in `.mcp.json`:
 - Search modes are independent: metadata/BM25/TF-IDF work without Ollama
 - Vector search requires Ollama running locally
 - All search functions return JSON-serializable dicts
+
+## Processing Pipeline
+
+New papers follow the pdf-cleaner skill from `ClaudeConfig_Cloud/skills/pdf-cleaner/SKILL.md`:
+1. Read each PDF to extract metadata (title, authors, date, abstract, keywords)
+2. Enrich PDF with XMP + /Info metadata via `enrich_metadata.py`
+3. Generate companion `.bib` file via `generate_bib.py`
+4. Rename to `Title_Fragment-First_Author.pdf` convention
+5. Move original to `Papers/processed/`
+6. Run `fz-ingest --vectors` to rebuild all indices
+
+Processing scripts per folder live in `scripts/` (e.g. `process_vol_surface.py`).
+
+## Ingestion Progress
+
+| Folder | PDFs | Status |
+|--------|------|--------|
+| Interest_Rates | 38 | Done — metadata, bibs, all indices |
+| Vol_Surface_and_SABR | 41 | Done — metadata, bibs, all indices |
+| Portfolio_and_Risk | 24 | Not started |
+| ML_and_Time_Series | 14 | Not started |
+| Programming | 14 | Not started |
+| FX | 8 | Not started |
+| Macro_and_Economics | 8 | Not started |
+| Non_Finance | 8 | Not started |
+| Numerical_Methods | 7 | Not started |
+| Vol_Products | 7 | Not started |
+| Credit_and_Structured | 6 | Not started |
+| Taleb | 5 | Not started |
+| Market_Reference | 5 | Not started |
+
+**Current totals**: 70 papers in metadata DB, 3276 chunks in search index, 3276 vectors in LanceDB.
