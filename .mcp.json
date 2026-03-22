@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "papers": {
+      "command": "python3",
+      "args": ["-m", "fuzzy_spaghetti.mcp_server"],
+      "env": {
+        "FUZZY_PAPERS_ROOT": "/Users/mnobes/PycharmProjects/Papers"
+      }
+    }
+  }
+}

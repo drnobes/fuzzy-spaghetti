@@ -205,3 +205,11 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+# fuzzy-spaghetti: search indices (generated, not committed)
+*.pkl
+*.npy
+*.sqlite
+chunks.json
+vectors/
+.search_index/
